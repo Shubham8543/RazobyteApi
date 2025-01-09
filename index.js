@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require ("express");
 const mongoose = require("mongoose");
 const app = express()
@@ -5,7 +6,6 @@ const cors =require("cors")
 const cookieParser = require("cookie-parser");
 const bodyParser=require('body-parser')
 // const cookieParser = require('cookie-parser')
-require('dotenv').config();
 
 
 
@@ -26,7 +26,8 @@ app.use(express.urlencoded({ extended: true }))
 main().catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/rozobyte');
+  await mongoose.connect(process.env.MONGO_URL);
+  console.log("Database connected!");
 
 }
 
