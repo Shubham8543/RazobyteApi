@@ -21,8 +21,7 @@ mongoose.connect(process.env.MONGO_URI, {
 })
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('MongoDB connection error:', err));
-  console.log("Mongo URI:", process.env.MONGO_URI);
-
+console.log("Mongo URI:", process.env.MONGO_URI);
 
 // Root Route
 app.get("/", (req, res) => {
@@ -34,8 +33,7 @@ const UserRoute = require("./Route/UserRoute");
 app.use("/api/users", UserRoute);
 
 const BookRoute = require("./Route/BookRoute");
-app.use("/api/books", BookRoute);
-app.use("/api/", BookRoute);
+app.use("/api/data", BookRoute); 
 
 // Start Server
 const PORT = process.env.PORT || 3000;
