@@ -30,9 +30,9 @@ async function main() {
 
 }
 
-// app.get("/",(req,res)=>{
-//     res.send("API is working!")
-// })
+app.get("/",(req,res)=>{
+    res.send("API is working!")
+})
 
 // importing the usermodel//
 
