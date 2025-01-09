@@ -2,6 +2,11 @@ const Bookform = require('../Schema/BookForm');
 const express = require('express');
 const route = express.Router();
 
+
+route.get("/", (req, res) => {
+    res.send("API is working!");
+});
+
 route.post("/bookform", async (req, res) => {
     try {
         const { name, email, phone, companyname, service, message } = req.body;
