@@ -31,10 +31,10 @@ app.get("/", (req, res) => {
 
 // Routes
 const UserRoute = require("./Route/UserRoute");
-app.use("/api/users", UserRoute);
+app.use("/api", UserRoute);
 
 const BookRoute = require("./Route/BookRoute");
-app.use("/api/books", BookRoute);
+app.use("/api", BookRoute);
 
 // Start Server
 const PORT = process.env.PORT || 3000;
