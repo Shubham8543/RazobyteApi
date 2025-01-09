@@ -4,10 +4,12 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+const morgan = require('morgan');
 
 const app = express();
 
 // Middleware
+app.use(morgan('dev'))
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(cors());
@@ -29,8 +31,8 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-const UserRoute = require("./Route/UserRoute");
-app.use("/api/users", UserRoute);
+// const UserRoute = require("./Route/UserRoute");
+// app.use("/api/users", UserRoute);
 
 const BookRoute = require("./Route/BookRoute");
 app.use("/api/data", BookRoute); 
