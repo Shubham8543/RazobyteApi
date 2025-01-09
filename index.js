@@ -30,6 +30,10 @@ async function main() {
 
 }
 
+app.get("/",(req,res)=>{
+    res.send("API is working!")
+})
+
 // importing the usermodel//
 
 const UserRoute =require("./Route/UserRoute")
