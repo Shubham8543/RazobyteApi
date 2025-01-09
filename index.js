@@ -35,6 +35,7 @@ app.use("/api/users", UserRoute);
 
 const BookRoute = require("./Route/BookRoute");
 app.use("/api/books", BookRoute);
+app.use("/api/", BookRoute);
 
 // Start Server
 const PORT = process.env.PORT || 3000;
