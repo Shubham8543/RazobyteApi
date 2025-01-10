@@ -1,8 +1,8 @@
 const Bookform = require('../Schema/BookForm');
 const express = require('express');
-const route = express.Router();
+const router = express.Router();
 
-route.post("/bookform", async (req, res) => {
+router.post("/bookform", async (req, res) => {
     try {
         const { name, email, phone, companyname, service, message } = req.body;
         const bookform = await Bookform.create({
@@ -21,7 +21,7 @@ route.post("/bookform", async (req, res) => {
     }
 });
 
-route.get("/get", async (req, res) => {
+router.get("/get", async (req, res) => {
     try {
         const bookform = await Bookform.find();
         res.status(201).json({msg:"data get done", bookform });
@@ -31,7 +31,7 @@ route.get("/get", async (req, res) => {
 });
 
 
-route.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
     try {
         const bookform = await Bookform.findByIdAndDelete(req.params.id);
         if (!bookform) {
@@ -47,4 +47,4 @@ route.delete("/delete/:id", async (req, res) => {
 
 
 
-module.exports = route;
+module.exports = router;

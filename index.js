@@ -5,6 +5,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require('morgan');
+const mongoURL = process.env.MONGO_URI;
 
 const app = express();
 
@@ -17,13 +18,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect("mongodb+srv://smar07482:wuvc8ywKWPHWVGTg@cluster0.v9myh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('MongoDB connection error:', err));
-console.log("Mongo URI:", process.env.MONGO_URI);
+console.log("Mongo URI:", mongoURL);
 
 // Root Route
 app.get("/", (req, res) => {
