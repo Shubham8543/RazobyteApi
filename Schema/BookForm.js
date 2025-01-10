@@ -39,7 +39,7 @@ const BookSchema = new mongoose.Schema({
   },
 });
 
-BookSchema.index({ email: 1, phone: 1 });
+// BookSchema.index({ email: 1, phone: 1 });
 
 const BookForm = mongoose.model("BookForm", BookSchema);
 

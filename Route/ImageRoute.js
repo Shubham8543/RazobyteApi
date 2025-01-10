@@ -1,48 +1,65 @@
-const image = require("../Schema/Image");
-const path = require("path");
 const multer = require("multer");
 const fs = require("fs");
+const path = require("path");
+const express = require("express");
+const router = express.Router();
 
+// Set the uploads directory
+const uploadsDir = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir);
+}
 
+// Multer storage configuration
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, "uploads/");
-    },
-    filename: function (req, file, cb) {
-      const uniqueSuffix = Date.now();
-      cb(null, uniqueSuffix + '_' + file.originalname); 
-    },
-  });
+  destination: (req, file, cb) => {
+    cb(null, uploadsDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now();
+    cb(null, `${uniqueSuffix}_${file.originalname}`);
+  },
+});
 
-
-  const upload = multer({ storage: storage });
-
-  app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "index.html"));
-  });
-
-
-
-
-  app.post('/create', upload.single('uploaded_file'), (req, res) => {
-    console.log(req.file, req.body);
-    console.log("Uploads directory:", path.join(__dirname, 'uploads'));
-  
-    fs.readdir(path.join(__dirname, 'uploads'), (err, files) => {
-      if (err) {
-        console.error("Error reading uploads directory:", err);
-      } else {
-        console.log("Files in uploads directory:", files);
-      }
-    });
-  
-    if (req.file) {
-        res.json({ message: 'File uploaded successfully', path: `/uploads/${req.file.filename}` });
+// Multer configuration
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+    if (allowedTypes.includes(file.mimetype)) {
+      cb(null, true);
     } else {
-        res.status(400).json({ message: 'File upload failed' });
+      cb(new Error("Invalid file type"));
     }
+  },
+});
+
+// POST route for file upload
+router.post("/create", upload.single("image"), (req, res) => {
+  if (req.file) {
+    res.json({
+      message: "File uploaded successfully",
+      path: `/uploads/${req.file.filename}`,
+    });
+  } else {
+    res.status(400).json({ message: "File upload failed" });
+  }
+});
+
+// GET route to retrieve uploaded images
+router.get("/find", (req, res) => {
+  fs.readdir(uploadsDir, (err, files) => {
+    if (err) {
+      console.error("Error reading uploads directory:", err);
+      return res.status(500).json({ message: "Error reading uploads directory" });
+    }
+
+    const imagePaths = files.map((file) => `/uploads/${file}`);
+    res.json({
+      message: "Images retrieved successfully",
+      images: imagePaths,
+    });
   });
+});
 
-
-
-  app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+module.exports = router;

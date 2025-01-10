@@ -6,6 +6,8 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require('morgan');
 const mongoURL = process.env.MONGO_URI;
+const path = require("path");
+
 
 const app = express();
 
@@ -16,6 +18,9 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 // MongoDB Connection
 mongoose.connect("mongodb+srv://smar07482:wuvc8ywKWPHWVGTg@cluster0.v9myh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
@@ -34,6 +39,9 @@ app.get("/", (req, res) => {
 
 const BookRoute = require("./Route/BookRoute");
 app.use("/api/data", BookRoute); 
+
+const ImageRoute = require("./Route/ImageRoute");
+app.use("/api", ImageRoute);
 
 // Start Server
 const PORT = process.env.PORT || 3000;
