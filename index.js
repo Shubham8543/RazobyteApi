@@ -34,8 +34,8 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-// const UserRoute = require("./Route/UserRoute");
-// app.use("/api/users", UserRoute);
+const UserRoute = require("./Route/UserRoute");
+app.use("/api", UserRoute);
 
 const BookRoute = require("./Route/BookRoute");
 app.use("/api/data", BookRoute); 
