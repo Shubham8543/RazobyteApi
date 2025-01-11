@@ -22,21 +22,7 @@ const upload = multer({
   },
 });
 
-router.get("/find", (req, res) => {
-  fs.readdir(uploads, (err, files) => {
-    if (err) {
-      console.error("Error reading uploads directory:", err);
-      return res.status(500).json({ message: "Error reading uploads directory" });
-    }
-
-    const imagePaths = files.map((file) => `/uploads/${file}`);
-    res.json({ message: "Images retrieved successfully", images: imagePaths });
-  });
-});
-
-
-
-router.post("/create", (req, res, next) => {
+router.post("/create", (req, res) => {
   upload.single("image")(req, res, (err) => {
     if (err) {
       return res.status(400).json({ message: err.message });
@@ -50,5 +36,16 @@ router.post("/create", (req, res, next) => {
   });
 });
 
+router.get("/find", (req, res) => {
+  fs.readdir(uploads, (err, files) => {
+    if (err) {
+      console.error("Error reading uploads directory:", err);
+      return res.status(500).json({ message: "Error reading uploads directory" });
+    }
+
+    const imagePaths = files.map((file) => `/uploads/${file}`);
+    res.json({ message: "Images retrieved successfully", images: imagePaths });
+  });
+});
 
 module.exports = router;
